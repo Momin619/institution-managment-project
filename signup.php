@@ -8,7 +8,7 @@
     <style>
     /* Basic styling for body */
     body {
-        font-family: 'Arial', sans-serif;
+        font-family: 'Poppins', sans-serif;
         background-color: #f4f4f9;
         margin: 0;
         padding: 0;
@@ -19,28 +19,27 @@
         flex-direction: column;
     }
 
-    /* Container to center the form */
+    /* Form container */
     form {
         background-color: #fff;
-        padding: 30px;
+        padding: 20px;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 100%;
+        width: 90%;
         max-width: 400px;
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
 
-    /* Input field styling */
+    /* Input fields */
     input[type="text"],
     input[type="password"] {
         padding: 12px;
         border: 1px solid #ddd;
         border-radius: 5px;
         font-size: 1em;
-        width: 93%;
-        margin-bottom: 15px;
+        width: 94%;
         transition: border-color 0.3s ease;
     }
 
@@ -50,13 +49,20 @@
         outline: none;
     }
 
+    /* Error message styling */
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-bottom: -10px;
+    }
+
     /* Label styling */
     label {
         font-size: 1.1em;
         color: #333;
     }
 
-    /* Button styling */
+    /* Submit button */
     button {
         padding: 14px;
         background-color: #3498db;
@@ -73,21 +79,19 @@
         background-color: #2980b9;
     }
 
-
-    /* Responsive Design */
-    @media (max-width: 768px) and (min-width:650px) {
-        body {
-            padding: 10px;
-        }
-
+    /* Responsive design for tablets */
+    @media (max-width: 768px) {
         form {
-            max-width: 100%;
             padding: 20px;
+            width: 100%;
         }
+    }
 
-        input[type="text"],
-        input[type="password"] {
-            width: 90%;
+    /* Responsive design for mobile phones */
+    @media (max-width: 480px) {
+        form {
+            padding: 15px;
+            width: 100%;
         }
 
         label {
@@ -95,11 +99,7 @@
         }
 
         button {
-            width: 93.5%;
-            display: block;
-            margin-left: 0%;
-
-            font-size: 1.1em;
+            font-size: 1em;
             padding: 12px;
         }
     }
@@ -107,15 +107,55 @@
 </head>
 
 <body>
-    <form action="">
+    <form action="" method="post" id='hidden'>
+        <!-- Display error messages if any -->
+        <?php if (isset($_GET['error'])): ?>
+        <div class="error-message"><?php echo htmlspecialchars($_GET['error']); ?></div>
+        <?php endif; ?>
+
         <label for="username">Username</label>
-        <input type="text" name="username" id="username" required>
+        <input type="text" name="username" id="username" placeholder="Enter your username" required>
 
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
 
         <button type="submit">Submit Details</button>
     </form>
+
+    <?php
+      include "./connection.php";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+        $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+
+        if (!empty($username) && !empty($password)) {
+           
+            // Optionally: Perform additional validation here
+           if (strlen($username) < 5 && strlen($password) < 8) {
+    header("Location: ./signup.php?error=Username must be at least 5 characters and Password must be at least 8 characters");
+    exit;
+}
+
+ $query = "INSERT INTO users (username, password) VALUES ('{$username}', '{$password}')";
+        $execute = mysqli_query($connection, $query);
+
+        if ($execute) {
+            header("Location: ./login.php");
+            exit;
+        } else {
+            header("Location: ./signup.php?error=Failed to insert data");
+            exit;
+        }
+            // Redirect to login if valid
+            header("Location: ./login.php");
+            exit;
+        } else {
+            // Redirect back with an error
+            header("Location: ./signup.php?error=Please fill in all fields");
+            exit;
+        }
+    }
+    ?>
 </body>
 
 </html>
