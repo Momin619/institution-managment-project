@@ -22,14 +22,21 @@
         color: #333;
     }
 
-    /* Table Styling */
     table {
+        overflow: visible;
         width: 100%;
         margin: 20px auto;
         border-collapse: collapse;
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
     }
+
+    tr {
+        display: table-row !important;
+    }
+
+    /* Table Styling */
 
     th,
     td {
@@ -119,6 +126,7 @@ JOIN students ON attendance.unique_id = students.unique_id;
 ";
 
     $result = $conn->query($sql);
+echo "Total Rows: " . $result->num_rows;
 
     if ($result->num_rows > 0) {
         echo "<table>
@@ -129,6 +137,7 @@ JOIN students ON attendance.unique_id = students.unique_id;
                     <th>Status</th>
                 </tr>";
         while ($row = $result->fetch_assoc()) {
+         
             echo "<tr>
             
                     <td data-label='Name'>" . $row['name'] . "</td>
