@@ -101,7 +101,7 @@
 <body>
 
     <?php
-    error_reporting(E_ERROR | E_PARSE);
+
 
     $connection = mysqli_connect('localhost', 'root', '', 'institution database attendance');
     if (!$connection) {
@@ -110,11 +110,11 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $unique_id = isset($_POST['unique_id']) ? $_POST['unique_id'] : '';
-
-        if (!empty($unique_id)) {
-            $query = "SELECT * FROM students WHERE unique_id = '$unique_id'";
+    $query = "SELECT * FROM students WHERE unique_id = '$unique_id'";
             $execute = mysqli_query($connection, $query);
 
+        if (!empty($unique_id)) {
+        
             if (mysqli_num_rows($execute) > 0) {
                 $student = mysqli_fetch_assoc($execute);
                 $student_name = $student['name'];

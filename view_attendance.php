@@ -107,16 +107,16 @@
     <h1>Attendance Records</h1>
 
     <?php
-    $conn = new mysqli('localhost', 'root', '', 'institution database attendance');
+    $conn =  mysqli_connect('localhost', 'root', '', 'institution database attendance');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
     $sql = "SELECT students.name, students.class, attendance.attendance_date, attendance.status 
-            FROM attendance 
-            JOIN students ON attendance.unique_id = students.unique_id 
-            ORDER BY attendance.attendance_date DESC";
+FROM attendance 
+JOIN students ON attendance.unique_id = students.unique_id;
+";
 
     $result = $conn->query($sql);
 
@@ -130,6 +130,7 @@
                 </tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
+            
                     <td data-label='Name'>" . $row['name'] . "</td>
                     <td data-label='Class'>" . $row['class'] . "</td>
                     <td data-label='Date'>" . $row['attendance_date'] . "</td>

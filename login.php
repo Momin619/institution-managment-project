@@ -7,6 +7,10 @@
     <title>Login Form</title>
     <style>
     /* General body styles */
+    #hidden {
+        display: none;
+    }
+
     body {
         font-family: 'Arial', sans-serif;
         background-color: #f5f5f5;
@@ -107,13 +111,43 @@
             <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
-    <?php   
+    <?php
+$connection = mysqli_connect('localhost', 'root', '', 'institution database attendance');
+
+if (!$connection) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+  $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 
+if(!empty($username) && !empty($password)){
+    $username = mysqli_real_escape_string($connection, $_POST['username']);
+    $password = mysqli_real_escape_string($connection, $_POST['password']);
 
 
+// Correct SQL query syntax
+$query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+
+// Execute the query and check for errors
+$execute = mysqli_query($connection, $query);
+
+if (!$execute) {
+    die("Query failed: " . mysqli_error($connection)); // Output error message
+}
+
+// Check if any rows are returned
+if (mysqli_num_rows($execute) > 0) {
+    echo 'Login successful';
+    header("Location:./dashboard.php");
+} else {
+    echo 'Invalid username or password';
+}
+}
+// Sanitize user input to prevent SQL injection
 
 ?>
+
 </body>
 
 </html>
