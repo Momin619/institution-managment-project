@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="./pics/icon-removebg-preview.png">
-    <link rel="stylesheet" href="./font.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance System Dashboard</title>
@@ -24,65 +22,40 @@
 
     /* Header Section */
     header {
-        background: linear-gradient(135deg, #4CAF50, #45a049);
-        padding: 10px 10px;
-        text-align: center;
+        background: linear-gradient(135deg, #4CAF50, #0288D1);
+        padding: 10px 20px;
         color: white;
+        width: 100%;
         position: sticky;
         top: 0;
         z-index: 1000;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: bold;
     }
 
     header h1 {
-        font-size: 2.8em;
-        margin-bottom: 5px;
-        animation: fadeInDown 1s ease-in-out;
+        font-size: 2em;
+        margin: 0;
     }
 
     header p {
-        font-size: 1.2em;
-        animation: fadeInUp 1s ease-in-out;
-    }
-
-    /* Navigation */
-    nav {
-        display: flex;
-        justify-content: center;
-        background-color: #333;
-        flex-wrap: wrap;
-        padding: 10px;
-        animation: slideIn 1.2s ease-out;
-        display: block;
-        margin-top: 10%;
-    }
-
-    nav a {
-        padding: 14px 20px;
-        margin: 5px;
-        color: white;
-        text-decoration: none;
-        text-align: center;
         font-size: 1.1em;
-
-
-        background-color: #4CAF50;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-    }
-
-    nav a:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
+        text-align: right;
+        flex: 1;
     }
 
     /* Main Content Section */
     main {
+        margin-top: 70px;
+        padding: 40px 20px;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
-        padding: 40px 10px;
         justify-items: center;
+        /* Ensures cards are centered */
     }
 
     .card {
@@ -94,7 +67,6 @@
         width: 100%;
         max-width: 300px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        animation: zoomIn 0.8s ease;
     }
 
     .card:hover {
@@ -146,74 +118,63 @@
         margin: 0;
     }
 
-    /* Animations */
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(-100%);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes zoomIn {
-        from {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
     /* Responsive Design */
+    @media (min-width: 768px) {
+        main {
+            margin: 70px 110px;
+        }
+    }
+
     @media (max-width: 768px) {
-        header h1 {
-            font-size: 2.2em;
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
         }
 
-        nav {
-            flex-direction: column;
+        header h1 {
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1em;
+            text-align: left;
+        }
+
+        main {
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
         }
 
         .card {
-            max-width: 90%;
+            max-width: 73%;
         }
     }
 
     @media (max-width: 480px) {
-        nav a {
-            padding: 12px;
+        body {
+            overflow: hidden;
+        }
+
+        header {
+            width: 100%;
+        }
+
+        .card {
+            max-width: 100%;
+        }
+
+        main {
+            width: 100%;
+            margin: 70px 0px;
+        }
+
+        header h1 {
             font-size: 1em;
+        }
+
+        header p {
+            font-size: 0.8em;
         }
 
         .card h2 {
@@ -228,6 +189,54 @@
             font-size: 0.8em;
         }
     }
+
+    @media only screen and (max-width:480px) and (min-width:319px) {
+        header {
+            width: 119%;
+        }
+
+        main {
+            width: 100%;
+            margin-left: 30px;
+        }
+
+        .card {
+            max-width: 90%;
+        }
+
+    }
+
+    @media only screen and (max-width:356px) and (min-width:320px) {
+        header {
+            width: 119%;
+        }
+
+        main {
+            width: 100%;
+            margin-left: -10px;
+        }
+
+        .card {
+            max-width: 90%;
+        }
+
+    }
+
+    @media only screen and (max-width:356px) and (min-width:326px) {
+        header {
+            width: 119%;
+        }
+
+        main {
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        .card {
+            max-width: 90%;
+        }
+
+    }
     </style>
 </head>
 
@@ -238,13 +247,6 @@
         <h1>School Attendance System</h1>
         <p>Manage students, mark attendance, and view records</p>
     </header>
-
-    <!-- Navigation Section -->
-    <nav>
-        <a href="add_student.php">Add Student</a>
-        <a href="mark_attendance.php">Mark Attendance</a>
-        <a href="view_attendance.php">View Attendance</a>
-    </nav>
 
     <!-- Main Content Section -->
     <main>
