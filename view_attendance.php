@@ -23,20 +23,12 @@
     }
 
     table {
-        overflow: visible;
         width: 100%;
         margin: 20px auto;
         border-collapse: collapse;
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
     }
-
-    tr {
-        display: table-row !important;
-    }
-
-    /* Table Styling */
 
     th,
     td {
@@ -48,6 +40,8 @@
     th {
         background-color: #007BFF;
         color: white;
+        position: sticky;
+        top: 0;
     }
 
     tr:nth-child(even) {
@@ -58,53 +52,58 @@
         background-color: #f1f1f1;
     }
 
-    /* Responsiveness: Adjust table for mobile devices */
+    /* Responsive Design for Tablets and Mobile Devices */
     @media (max-width: 768px) {
         table {
             width: 100%;
-            margin: 10px;
+            border: 0;
         }
 
         th,
         td {
-            padding: 8px;
+            padding: 10px;
             font-size: 14px;
         }
 
-        table,
-        th,
-        td {
-            display: block;
-        }
-
-        th {
-            background-color: #007BFF;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
-
         tr {
-            display: flex;
-            flex-direction: column;
+            display: block;
             margin-bottom: 10px;
         }
 
         td {
             display: block;
-            padding: 8px 10px;
             text-align: right;
-            width: 100%;
-            border: none;
+            border: 0;
             background-color: #fff;
+            position: relative;
+            padding-left: 50%;
+            box-sizing: border-box;
         }
 
         td:before {
             content: attr(data-label);
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             font-weight: bold;
-            padding-right: 5px;
             text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            display: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        td {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+        td:before {
+            font-size: 12px;
         }
     }
     </style>
@@ -114,19 +113,17 @@
     <h1>Attendance Records</h1>
 
     <?php
-    $conn =  mysqli_connect('localhost', 'root', '', 'institution database attendance');
+    $conn = mysqli_connect('localhost', 'root', '', 'institution database attendance');
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
     $sql = "SELECT students.name, students.class, attendance.attendance_date, attendance.status 
-FROM attendance 
-JOIN students ON attendance.unique_id = students.unique_id;
-";
+            FROM attendance 
+            JOIN students ON attendance.unique_id = students.unique_id;";
 
     $result = $conn->query($sql);
-echo "Total Rows: " . $result->num_rows;
 
     if ($result->num_rows > 0) {
         echo "<table>
@@ -137,13 +134,11 @@ echo "Total Rows: " . $result->num_rows;
                     <th>Status</th>
                 </tr>";
         while ($row = $result->fetch_assoc()) {
-         
             echo "<tr>
-            
-                    <td data-label='Name'>" . $row['name'] . "</td>
-                    <td data-label='Class'>" . $row['class'] . "</td>
-                    <td data-label='Date'>" . $row['attendance_date'] . "</td>
-                    <td data-label='Status'>" . $row['status'] . "</td>
+                    <td data-label='Name'>" . htmlspecialchars($row['name']) . "</td>
+                    <td data-label='Class'>" . htmlspecialchars($row['class']) . "</td>
+                    <td data-label='Date'>" . htmlspecialchars($row['attendance_date']) . "</td>
+                    <td data-label='Status'>" . htmlspecialchars($row['status']) . "</td>
                   </tr>";
         }
         echo "</table>";
@@ -153,7 +148,6 @@ echo "Total Rows: " . $result->num_rows;
 
     $conn->close();
     ?>
-
 </body>
 
 </html>
