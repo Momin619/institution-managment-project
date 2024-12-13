@@ -2,21 +2,20 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./font.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a Student</title>
     <style>
     /* Basic styling */
     body {
-
+        font-family: "Poppins", sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f7f7f7;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         color: #333;
     }
 
@@ -28,6 +27,7 @@
         width: 100%;
         max-width: 600px;
         margin: 0 20px;
+        box-sizing: border-box;
     }
 
     h1 {
@@ -37,21 +37,28 @@
         margin-bottom: 20px;
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
     label {
-        font-size: 14px;
-        margin-bottom: 5px;
+        font-size: 16px;
         color: #555;
+        margin-bottom: 5px;
+        text-align: left;
     }
 
     .inputs {
-        width: 95%;
+        width: 100%;
         padding: 12px;
-        margin: 10px 0 20px 0;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 16px;
         background-color: #f4f4f4;
         transition: 0.3s ease;
+        box-sizing: border-box;
     }
 
     .inputs:focus {
@@ -70,6 +77,7 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        box-sizing: border-box;
     }
 
     button:hover {
@@ -85,6 +93,14 @@
         h1 {
             font-size: 24px;
         }
+
+        .inputs {
+            font-size: 15px;
+        }
+
+        button {
+            font-size: 15px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -93,21 +109,19 @@
         }
 
         .inputs {
-            width: 93%;
             font-size: 14px;
+            padding: 10px;
         }
 
         button {
             font-size: 14px;
+            padding: 12px;
         }
     }
     </style>
 </head>
 
 <body>
-
-
-
     <div class="container">
         <h1>Add Student</h1>
 
@@ -128,7 +142,7 @@
             $execute = mysqli_query($conn, $sql);
 
             if (!empty($name) && !empty($class) && !empty($joined_date)) {
-                echo "Data added. Unique ID is $unique_id";
+                echo "<p style='color: green; text-align: center;'>Data added. Unique ID is $unique_id</p>";
             }
             error_reporting(0);
             ini_set('display_errors', 0);
@@ -137,7 +151,6 @@
 
         <!-- Form for adding student -->
         <form method="POST" action="" id="myForm">
-
             <label for="name">Name:</label>
             <input class="inputs" type="text" name="name" id="name" required>
 
@@ -157,7 +170,6 @@
         document.getElementById('myForm').reset();
     };
     </script>
-
 </body>
 
 </html>
